@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Sistema de validação de CPF">
+
+    <title>confimar seu cpf</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+    
+        :root {
+
+            --primaria: #3f1955;
+            --primaria-hover: #4a448f;
+
+            --fundo: #f4f6fb;
+            --card: #ffffff;
+
+            --texto: #172033;
+            --texto-secundario: #687386;
+
+            --borda: #e4e7ec;
+
+            --sucesso: #16a34a;
+            --sucesso-fundo: #dcfce7;
+
+            --erro: #dc2626;
+            --erro-fundo: #fee2e2;
+
+            --sombra:
+                0 10px 35px rgba(0, 0, 0, 0.07);
+        }
+
+
+        
+        body.dark {
+
+            --fundo: #0f172a;
+            --card: #1e293b;
+
+            --texto: #f8fafc;
+            --texto-secundario: #aeb8c8;
+
+            --borda: #334155;
+
+            --sombra:
+                0 10px 35px rgba(0, 0, 0, 0.25);
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--fundo);
+
+            color: var(--texto);
+
+            min-height: 100vh;
+
+            transition: 0.3s;
+        }
+
+
+        header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: white;
+
+            padding: 20px 6%;
+
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .header-conteudo {
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+        }
+
+
+        .logo-icone {
+
+            width: 48px;
+            height: 48px;
+
+            background:
+                rgba(255,255,255,0.18);
+
+            border-radius: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+
+        .logo h1 {
+
+            font-size: 22px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .logo p {
+
+            font-size: 12px;
+
+            opacity: 0.8;
+        }
+
+
+        
+        #tema {
+
+            border: none;
+
+            background:
+                rgba(255,255,255,0.15);
+
+            color: white;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            font-size: 19px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        #tema:hover {
+
+            background:
+                rgba(255,255,255,0.25);
+
+            transform: rotate(10deg);
+        }
+
+
+        
+        main {
+
+            width:
+                min(
+                    calc(100% - 30px),
+                    1100px
+                );
+
+            margin: 35px auto 60px;
+        }
+
+
+        
+
+        .estatisticas {
+
+            display: flex;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .estatistica {
+
+            flex: 1;
+
+            background: var(--card);
+
+            border: 1px solid var(--borda);
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            box-shadow: var(--sombra);
+        }
+
+
+        .estatistica span {
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 12px;
+        }
+
+
+        .estatistica strong {
+
+            display: block;
+
+            margin-top: 7px;
+
+            font-size: 24px;
+        }
+
+
+       
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.4fr 0.8fr;
+
+            gap: 20px;
+        }
+
+
+        
+        .card {
+
+            background: var(--card);
+
+            border:
+                1px solid var(--borda);
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            box-shadow: var(--sombra);
+        }
+
+
+        .titulo-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .titulo-icone {
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 12px;
+
+            background:
+                #eef2ff;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 20px;
+        }
+
+
+        body.dark .titulo-icone {
+
+            background: #312e81;
+        }
+
+
+        .titulo-card h2 {
+
+            font-size: 20px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .titulo-card p {
+
+            font-size: 13px;
+
+            color:
+                var(--texto-secundario);
+        }
+
+
+        
+
+        label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .input-area {
+
+            position: relative;
+        }
+
+
+        #cpf {
+
+            width: 100%;
+
+            height: 55px;
+
+            border:
+                2px solid var(--borda);
+
+            border-radius: 12px;
+
+            padding:
+                0 50px 0 16px;
+
+            background: var(--card);
+
+            color: var(--texto);
+
+            font-size: 17px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        #cpf:focus {
+
+            border-color:
+                var(--primaria);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(79,70,229,0.10);
+        }
+
+
+        #limparInput {
+
+            position: absolute;
+
+            right: 13px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color:
+                var(--texto-secundario);
+
+            cursor: pointer;
+
+            font-size: 17px;
+        }
+
+
+        .ajuda {
+
+            margin-top: 8px;
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 12px;
+        }
+
+
+        
+
+        .botoes {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+
+        .botao {
+
+            flex: 1;
+
+            height: 50px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .principal {
+
+            background:
+                var(--primaria);
+
+            color: white;
+        }
+
+
+        .principal:hover {
+
+            background:
+                var(--primaria-hover);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .secundario {
+
+            background:
+                var(--fundo);
+
+            color:
+                var(--texto);
+
+            border:
+                1px solid var(--borda);
+        }
+
+
+        .secundario:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        
+
+        #resultado {
+
+            margin-top: 22px;
+
+            display: none;
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            animation:
+                aparecer 0.3s ease;
+        }
+
+
+        #resultado.exibir {
+
+            display: block;
+        }
+
+
+        .resultado-valido {
+
+            background:
+                var(--sucesso-fundo);
+
+            border:
+                1px solid #86efac;
+
+            color:
+                #166534;
+        }
+
+
+        .resultado-invalido {
+
+            background:
+                var(--erro-fundo);
+
+            border:
+                1px solid #fca5a5;
+
+            color:
+                #991b1b;
+        }
+
+
+        .resultado-cabecalho {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .resultado-icone {
+
+            font-size: 30px;
+        }
+
+
+        .resultado h3 {
+
+            margin-bottom: 4px;
+        }
+
+
+        .resultado p {
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .cpf-resultante {
+
+            margin-top: 15px;
+
+            padding-top: 14px;
+
+            border-top:
+                1px solid
+                rgba(0,0,0,0.10);
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+        }
+
+
+        .cpf-resultante strong {
+
+            font-size: 18px;
+        }
+
+
+        #copiar {
+
+            border: none;
+
+            background:
+                rgba(255,255,255,0.7);
+
+            padding: 8px 12px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+
+        
+
+        .historico-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+
+        .historico-header h2 {
+
+            font-size: 19px;
+        }
+
+
+        #limparHistorico {
+
+            border: none;
+
+            background: transparent;
+
+            color:
+                var(--erro);
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        #lista {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            max-height: 430px;
+
+            overflow-y: auto;
+        }
+
+
+        .item-historico {
+
+            border:
+                1px solid var(--borda);
+
+            border-radius: 12px;
+
+            padding: 13px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .item-historico strong {
+
+            display: block;
+
+            font-size: 14px;
+        }
+
+
+        .item-historico small {
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 11px;
+        }
+
+
+        .status {
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            padding: 5px 8px;
+
+            border-radius: 20px;
+        }
+
+
+        .status.valido {
+
+            background:
+                var(--sucesso-fundo);
+
+            color:
+                var(--sucesso);
+        }
+
+
+        .status.invalido {
+
+            background:
+                var(--erro-fundo);
+
+            color:
+                var(--erro);
+        }
+
+
+        .vazio {
+
+            text-align: center;
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 13px;
+
+            padding: 25px 10px;
+        }
+
+
+        
+
+        .info {
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-radius: 13px;
+
+            background:
+                var(--fundo);
+
+            border:
+                1px solid var(--borda);
+        }
+
+
+        .info h3 {
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .info ul {
+
+            padding-left: 18px;
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+
+        
+
+        footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 12px;
+
+            border-top:
+                1px solid var(--borda);
+        }
+
+
+        
+
+        @keyframes aparecer {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(8px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        
+
+        @media(max-width: 800px) {
+
+            .grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media(max-width: 600px) {
+
+            .estatisticas {
+
+                flex-direction: column;
+            }
+
+
+            .header-conteudo {
+
+                align-items: flex-start;
+            }
+
+
+            .card {
+
+                padding: 20px;
+            }
+
+
+            .botoes {
+
+                flex-direction: column;
+            }
+
+
+            .cpf-resultante {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    
+
+    <header>
+
+        <div class="header-conteudo">
+
+            <div class="logo">
+
+                
+        
+                </div>
+
+                <div>
+
+                    <h1>ConfiaCPF</h1>
+
+                    <p>
+                        Verificação de CPF
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+    
+    <main>
+
+
+       
+
+        <section class="estatisticas">
+
+            <div class="estatistica">
+
+                <span>
+                    VERIFICAÇÕES
+                </span>
+
+                <strong id="totalConsultas">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="estatistica">
+
+                <span>
+                    ENCONTRADO
+                </span>
+
+                <strong id="totalValidos">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="estatistica">
+
+                <span>
+                NÃO ENCONTRADO
+                </span>
+
+                <strong id="totalInvalidos">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        
+
+        <div class="grid">
+
+
+            
+
+            <section class="card">
+
+                <div class="titulo-card">
+
+                        
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            VERIFICAR
+                        </h2>
+
+                    
+                           
+
+                    </div>
+
+                </div>
+
+
+                <form id="formulario">
+
+                    <label for="cpf">
+                        Número do CPF
+                    </label>
+
+
+                    <div class="input-area">
+
+                        <input
+                            type="text"
+                            id="cpf"
+                            placeholder="000.000.000-00"
+                            maxlength="14"
+                            inputmode="numeric"
+                            autocomplete="off"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            id="limparInput"
+                            title="Limpar">
+
+                            
+
+                        </button>
+
+                    </div>
+
+
+                    <p class="ajuda">
+
+                        Informe os 11 números do CPF.
+                        
+                    </p>
+
+
+                    <div class="botoes">
+
+                        <button
+                            type="submit"
+                            class="botao principal">
+
+                             Verificar CPF
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="limpar"
+                            class="botao secundario">
+
+                            Limpar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+               
+                <div id="resultado">
+
+                    <div class="resultado-cabecalho">
+
+                        <div
+                            class="resultado-icone"
+                            id="resultadoIcone">
+
+                            
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 id="resultadoTitulo">
+                                CPF válido
+                            </h3>
+
+                            <p id="resultadoTexto">
+                                O CPF passou pela validação
+                                dos dígitos verificadores.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="cpf-resultante">
+
+                        <strong id="cpfResultado">
+                            000.000.000-00
+                        </strong>
+
+
+                      
+                    </div>
+
+                </div>
+
+
+                
+
+                
+
+            </section>
+
+
+          
+            <section class="card">
+
+                <div class="historico-header">
+
+                    <div>
+
+                        <h2>
+                             Histórico
+                        </h2>
+
+                    </div>
+                    
+                   <!-- <button
+                            type="button"
+                            id="limparHistorico">
+
+                            Limpar historico
+
+                        </button> -->
+
+                
+                    
+                </div>
+
+
+                <div id="lista">
+
+                    <div class="vazio">
+
+                    Nenhuma Verificação realizada .
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>   
+
+
+    </footer>
+
+
+   
+    <script>
+
+
+        
+        const formulario =
+            document.getElementById("formulario");
+
+        const cpfInput =
+            document.getElementById("cpf");
+
+        const resultado =
+            document.getElementById("resultado");
+
+        const resultadoTitulo =
+            document.getElementById("resultadoTitulo");
+
+        const resultadoTexto =
+            document.getElementById("resultadoTexto");
+
+        const resultadoIcone =
+            document.getElementById("resultadoIcone");
+
+        const cpfResultado =
+            document.getElementById("cpfResultado");
+
+        const copiar =
+            document.getElementById("copiar");
+
+        const limpar =
+            document.getElementById("limpar");
+
+        const limparInput =
+            document.getElementById("limparInput");
+
+        const lista =
+            document.getElementById("lista");
+
+        const limparHistorico =
+            document.getElementById("limparHistorico");
+
+        const tema =
+            document.getElementById("tema");
+
+        const totalConsultas =
+            document.getElementById("totalConsultas");
+
+        const totalValidos =
+            document.getElementById("totalValidos");
+
+        const totalInvalidos =
+            document.getElementById("totalInvalidos");
+
+
+        
+        cpfInput.addEventListener(
+            "input",
+            function () {
+
+                let valor =
+                    cpfInput.value.replace(/\D/g, "");
+
+                valor =
+                    valor.substring(0, 11);
+
+
+                if (valor.length > 3) {
+
+                    valor =
+                        valor.replace(
+                            /^(\d{3})/,
+                            "$1."
+                        );
+                }
+
+
+                if (valor.length > 7) {
+
+                    valor =
+                        valor.replace(
+                            /^(\d{3})\.(\d{3})/,
+                            "$1.$2."
+                        );
+                }
+
+
+                if (valor.length > 11) {
+
+                    valor =
+                        valor.replace(
+                            /^(\d{3})\.(\d{3})\.(\d{3})/,
+                            "$1.$2.$3-"
+                        );
+                }
+
+
+                cpfInput.value = valor;
+
+            }
+        );
+
+
+        
+
+        function validarCPF(valor) {
+
+            const cpf =
+                valor.replace(/\D/g, "");
+
+
+            
+            if (cpf.length !== 11) {
+
+                return false;
+
+            }
+
+
+           
+
+            if (/^(\d)\1{10}$/.test(cpf)) {
+
+                return false;
+
+            }
+
+
+            
+
+            let soma = 0;
+
+
+            for (
+                let i = 0;
+                i < 9;
+                i++
+            ) {
+
+                soma +=
+                    Number(cpf[i]) *
+                    (10 - i);
+
+            }
+
+
+            let resto =
+                (soma * 10) % 11;
+
+
+            if (resto === 10) {
+
+                resto = 0;
+
+            }
+
+
+            if (
+                resto !==
+                Number(cpf[9])
+            ) {
+
+                return false;
+
+            }
+
+
+            
+
+            soma = 0;
+
+
+            for (
+                let i = 0;
+                i < 10;
+                i++
+            ) {
+
+                soma +=
+                    Number(cpf[i]) *
+                    (11 - i);
+
+            }
+
+
+            resto =
+                (soma * 10) % 11;
+
+
+            if (resto === 10) {
+
+                resto = 0;
+
+            }
+
+
+            if (
+                resto !==
+                Number(cpf[10])
+            ) {
+
+                return false;
+
+            }
+
+
+            return true;
+
+        }
+
+
+        
+        function formatarCPF(cpf) {
+
+            const numeros =
+                cpf.replace(/\D/g, "");
+
+
+            if (numeros.length !== 11) {
+
+                return cpf;
+
+            }
+
+
+            return (
+                numeros.substring(0, 3)
+                + "."
+                + numeros.substring(3, 6)
+                + "."
+                + numeros.substring(6, 9)
+                + "-"
+                + numeros.substring(9, 11)
+            );
+
+        }
+
+
+        
+
+        formulario.addEventListener(
+            "submit",
+            function (evento) {
+
+                evento.preventDefault();
+
+
+                const cpf =
+                    cpfInput.value;
+
+
+                if (
+                    cpf.replace(/\D/g, "").length !== 11
+                ) {
+
+                    mostrarResultado(
+                        false,
+                        cpf
+                    );
+
+                    return;
+
+                }
+
+
+                const valido =
+                    validarCPF(cpf);
+
+
+                mostrarResultado(
+                    valido,
+                    cpf
+                );
+
+
+                salvarHistorico(
+                    cpf,
+                    valido
+                );
+
+
+                atualizarEstatisticas();
+
+            }
+        );
+
+
+        
+
+        function mostrarResultado(
+            valido,
+            cpf
+        ) {
+
+            resultado.classList.add(
+                "exibir"
+            );
+
+
+            cpfResultado.textContent =
+                formatarCPF(cpf);
+
+
+            if (valido) {
+
+                resultado.className =
+                    "resultado-valido exibir";
+
+                resultadoTitulo.textContent =
+                    "CPF válido";
+
+                resultadoTexto.textContent =
+                    "O CPF passou pela validação dos dígitos verificadores.";
+
+            } else {
+
+                resultado.className =
+                    "resultado-invalido exibir";
+
+                resultadoIcone.textContent =
+                    "✕";
+
+                resultadoTitulo.textContent =
+                    "CPF inválido";
+
+                resultadoTexto.textContent =
+                    "O CPF informado não passou pela validação.";
+
+            }
+
+        }
+
+
+        
+
+        function salvarHistorico(
+            cpf,
+            valido
+        ) {
+
+            let historico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoCPF"
+                    )
+                ) || [];
+
+
+            const numero =
+                cpf.replace(/\D/g, "");
+
+
+            const registro = {
+
+                cpf: numero,
+
+                valido: valido,
+
+                data:
+                    new Date().toLocaleString(
+                        "pt-BR"
+                    )
+
+            };
+
+
+            historico.unshift(
+                registro
+            );
+
+
+            
+
+            historico =
+                historico.slice(0, 10);
+
+
+            localStorage.setItem(
+                "historicoCPF",
+                JSON.stringify(historico)
+            );
+
+
+            mostrarHistorico();
+
+        }
+
+
+        
+        function mostrarHistorico() {
+
+            const historico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoCPF"
+                    )
+                ) || [];
+
+
+            lista.innerHTML = "";
+
+
+            if (
+                historico.length === 0
+            ) {
+
+                lista.innerHTML = `
+                    <div class="vazio">
+                        Nenhuma consulta realizada.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            historico.forEach(
+                function (item) {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "item-historico";
+
+
+                    div.innerHTML = `
+
+                        <div>
+
+                            <strong>
+                                ${formatarCPF(item.cpf)}
+                            </strong>
+
+                            <small>
+                                ${item.data}
+                            </small>
+
+                        </div>
+
+                        <span class="status ${
+                            item.valido
+                            ? "valido"
+                            : "invalido"
+                        }">
+
+                            ${
+                                item.valido
+                                ? "VÁLIDO"
+                                : "INVÁLIDO"
+                            }
+
+                        </span>
+
+                    `;
+
+
+                    lista.appendChild(div);
+
+                }
+            );
+
+        }
+
+
+        
+        function atualizarEstatisticas() {
+
+            const historico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoCPF"
+                    )
+                ) || [];
+
+
+            const validos =
+                historico.filter(
+                    item => item.valido
+                ).length;
+
+
+            const invalidos =
+                historico.filter(
+                    item => !item.valido
+                ).length;
+
+
+            totalConsultas.textContent =
+                historico.length;
+
+
+            totalValidos.textContent =
+                validos;
+
+
+            totalInvalidos.textContent =
+                invalidos;
+
+        }
+
+
+        
+
+        limpar.addEventListener(
+            "click",
+            function () {
+
+                cpfInput.value = "";
+
+                resultado.className = "";
+
+                resultado.style.display =
+                    "none";
+
+                cpfInput.focus();
+
+            }
+        );
+
+
+        
+        limparInput.addEventListener(
+            "click",
+            function () {
+
+                cpfInput.value = "";
+
+                resultado.className = "";
+
+                resultado.style.display =
+                    "none";
+
+                cpfInput.focus();
+
+            }
+        );
+
+
+       
+
+        copiar.addEventListener(
+            "click",
+            async function () {
+
+                const cpf =
+                    cpfResultado.textContent;
+
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        cpf
+                    )
+
+
+        
+                        
+
+                } catch {
+
+                    alert(
+                        "Não foi possível copiar."
+                    );
+
+                }
+
+            }
+        );
+
+
+        
+
+        limparHistorico.addEventListener(
+            "click",
+            function () {
+
+                const confirmar =
+                    confirm(
+                        "Deseja apagar todo o histórico?"
+                    );
+
+
+                if (!confirmar) {
+
+                    return;
+
+                }
+
+
+                localStorage.removeItem(
+                    "historicoCPF"
+                );
+
+
+                mostrarHistorico();
+
+                atualizarEstatisticas();
+
+            }
+        );
+
+
+       
+        tema.addEventListener(
+            "click",
+            function () {
+
+                document.body.classList.toggle(
+                    "dark"
+                );
+
+
+                const escuro =
+                    document.body.classList.contains(
+                        "dark"
+                    );
+
+
+               
+
+
+                
+            
+
+            }
+        );
+
+
+        
+            localStorage.getItem(
+                "temaCPF"
+            );
+
+
+        if (temaSalvo === "escuro") {
+
+            document.body.classList.add(
+                "dark"
+            );
+
+            
+
+        }
+
+
+        
+
+        mostrarHistorico();
+
+        atualizarEstatisticas();
+
+
+    </script>
+
+</body>
+
+</html>
